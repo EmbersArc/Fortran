@@ -1,0 +1,20 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    "version": "0.1.0",
+    "command": "gfortran",
+    "isShellCommand": true,
+    "echoCommand": true,
+    "args": [
+
+        "-g",
+        "-Wall",
+        "-fbounds-check",
+        "-fbacktrace",
+        "-ffpe-trap=zero,overflow,underflow,invalid",
+
+        "newton.f90",
+        "-o", "newton"
+        
+        ],
+    "showOutput": "always"
+}
