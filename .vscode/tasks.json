@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "command": "gfortran",
     "isShellCommand": true,
-    "echoCommand": true,
+    "echoCommand": false,
     "args": [
 
         "-g",
@@ -12,7 +12,10 @@
         "-fbacktrace",
         "-ffpe-trap=zero,overflow,underflow,invalid",
 
+        "computeStep.f90",
+        "computeNewton.f90",
         "newton.f90",
+
         "-o", "newton"
         
         ],
