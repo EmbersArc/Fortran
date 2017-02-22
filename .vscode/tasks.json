@@ -12,6 +12,7 @@
         "-fbacktrace",
         "-ffpe-trap=zero,overflow,underflow,invalid",
 
+        "ModVariables.f90",
         "computeStep.f90",
         "computeNewton.f90",
         "newton.f90",

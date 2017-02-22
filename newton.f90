@@ -1,25 +1,16 @@
 
   PROGRAM newton
 
+  USE ModVariables
   IMPLICIT NONE
 
-  REAL, EXTERNAL :: computeStep
-  REAL, EXTERNAL :: initArray
-  REAL, EXTERNAL :: computeNewton
-
-
-  INTEGER, PARAMETER :: Nmax = 100
-  INTEGER :: errorFlag
-  INTEGER :: arrayElement = 0
-  REAL, PARAMETER :: Gamma = 1.4
-  REAL :: M,ARatio  
-
 !A/A* Array
-  INTEGER :: i = 0
   REAL :: start = 1, end = 10
-  INTEGER :: size = 92
-  REAL :: ARatioArray(0:92)
+  INTEGER :: size = 100
+  REAL :: ARatioArray(0:100)
 
+  INTEGER :: i = 0
+  
   initializeLoop: DO
     ARatioArray(i) = start + (end-start)/size*(i)
     i = i+1
@@ -29,9 +20,18 @@
   END DO initializeLoop
 !A/A* Array
 
-  OPEN(UNIT=420,FILE=TRIM('newtonOutput'),STATUS='UNKNOWN',IOSTAT=errorFlag)
 
-  ALoop: DO
+!open file
+  OPEN(UNIT=420,FILE=TRIM('newtonOutput'),STATUS='UNKNOWN',IOSTAT=errorFlagOpen)
+  IF ( errorFlagOpen /= 0 ) THEN
+    WRITE(*,*) 'ERROR - Could not open file!'   
+    STOP
+  END IF
+
+
+
+!compute M for each A/A* in array
+  WriteLoop: DO
 
     ARatio = ARatioArray(arrayElement)
 
@@ -43,16 +43,17 @@
     arrayElement = arrayElement + 1
 
     IF (arrayElement == size + 1) THEN
-      EXIT ALoop
+      EXIT WriteLoop
     END IF
 
-  END DO ALoop
+  END DO WriteLoop
 
-
-  CLOSE(UNIT=420,IOSTAT=errorFlag)
-  IF ( errorFlag /= 0 ) THEN
+!close file
+  CLOSE(UNIT=420,IOSTAT=errorFlagClose)
+  IF ( errorFlagClose /= 0 ) THEN
     WRITE(*,*) 'ERROR - Could not close file!'   
     STOP
   END IF
+
 
   END PROGRAM newton
